@@ -119,7 +119,9 @@ func (c Configuration) AcceptInboundConnection(conn net.Conn, config *ssh.Server
 	// Before beginning a handshake must be performed on the incoming net.Conn
 	sconn, chans, reqs, err := ssh.NewServerConn(conn, config)
 	if err != nil {
-		logger.Get().Warnw("failed to accept an incoming connection", zap.Error(err))
+		logger.Get().Warnw("failed to accept an incoming connection", zap.Error(err),
+		zap.String("ip", conn.RemoteAddr().String()),
+		)
 		return
 	}
 	defer sconn.Close()
